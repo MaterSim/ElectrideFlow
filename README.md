@@ -1855,3 +1855,15 @@ ase db electride_candidates.db 'e_above_hull<0.05'
   doi = {10.1016/j.matt.2019.06.017},
 }
 ```
+
+```bibtex
+@misc{tao2026acceleratedinorganicelectridesdiscovery,
+      title={Accelerated Inorganic Electrides Discovery by Generative Models and Hierarchical Screening}, 
+      author={Shuo Tao and Qiang Zhu},
+      year={2026},
+      eprint={2601.21077},
+      archivePrefix={arXiv},
+      primaryClass={cond-mat.mtrl-sci},
+      url={https://arxiv.org/abs/2601.21077}, 
+}
+```
