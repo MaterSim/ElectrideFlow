@@ -26,7 +26,9 @@ HULL_THRESHOLD=${HULL_THRESHOLD:-0.1}
 DEVICE=${DEVICE:-"cuda"}
 BATCH_SIZE=${BATCH_SIZE:-32}
 MAX_ATOMS_GPU=${MAX_ATOMS_GPU:-2048}
+MODEL_PATH=${MODEL_PATH:-""}
 PURE_PBE=${PURE_PBE:-""}
+PRESSURE=${PRESSURE:-""}
 
 echo "========================================================================"
 echo "VASPflow Pre-screening (MatterSim)"
@@ -148,8 +150,16 @@ if [ -n "$MP_API_KEY" ]; then
     CMD="$CMD --mp-api-key $MP_API_KEY"
 fi
 
+if [ -n "$MODEL_PATH" ]; then
+    CMD="$CMD --model-path $MODEL_PATH"
+fi
+
 if [ -n "$PURE_PBE" ]; then
     CMD="$CMD $PURE_PBE"
+fi
+
+if [ -n "$PRESSURE" ]; then
+    CMD="$CMD --pressure $PRESSURE"
 fi
 
 # Print configuration
@@ -162,11 +172,13 @@ echo "  Hull threshold: ${HULL_THRESHOLD} eV/atom"
 echo "  Device: $DEVICE"
 echo "  Batch size: $BATCH_SIZE"
 echo "  Max atoms on GPU: $MAX_ATOMS_GPU"
+echo "  Model: ${MODEL_PATH:-MatterSim-v1.0.0-5M.pth (default)}"
 if [ -n "$PURE_PBE" ]; then
     echo "  Functional filtering: Pure GGA-PBE only"
 else
     echo "  Functional filtering: Mixed PBE/PBE+U"
 fi
+echo "  Pressure: ${PRESSURE:-0.0} GPa"
 
 # Check MP API key
 if [ -z "$MP_API_KEY" ]; then
