@@ -3,7 +3,7 @@
 Generate crystal structures for multiple compositions using MatterGen CSP mode.
 
 This script supports both:
-- Fine-tuned CSP checkpoints: Pass checkpoint directory path
+- Trained checkpoints: Pass checkpoint directory path
 - Pretrained models: Pass model name (e.g., "mattergen_base")
 
 This script calls mattergen-generate for each composition via subprocess.
@@ -426,7 +426,7 @@ def process_compositions(
     
     # Determine model type
     is_checkpoint = ('/' in model_path or Path(model_path).exists())
-    model_type = "Fine-tuned checkpoint" if is_checkpoint else "Pretrained model"
+    model_type = "Trained checkpoint" if is_checkpoint else "Pretrained model"
     
     print("="*70)
     print(f"BATCH STRUCTURE GENERATION (CSP MODE)")
