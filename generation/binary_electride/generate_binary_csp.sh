@@ -30,7 +30,30 @@ mkdir -p logs
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
 # Generation parameters
-CSP_MODEL="$HOME/SOFT/mattergen_test/outputs/singlerun/2025-10-16/18-55-08"
+# ============================================================
+# CSP Model Configuration
+# ============================================================
+# Option 1: Use a local checkpoint path
+# CSP_MODEL="$HOME/SOFT/mattergen_test/outputs/singlerun/2025-10-16/18-55-08"
+#
+# Option 2: Download from Hugging Face (recommended for reproducibility)
+# The checkpoint is hosted at: https://huggingface.co/Tack-Tau/mattergen-csp-electride
+CSP_MODEL_DIR="$HOME/SOFT/mattergen_test/csp_model"
+if [ ! -d "$CSP_MODEL_DIR/checkpoints" ]; then
+    echo "Downloading CSP model from Hugging Face..."
+    python -c "
+from huggingface_hub import snapshot_download
+snapshot_download('Tack-Tau/mattergen-csp-electride', local_dir='${CSP_MODEL_DIR}')
+"
+    if [ $? -ne 0 ]; then
+        echo "ERROR: Failed to download model from Hugging Face"
+        echo "Please download manually:"
+        echo "  python -c \"from huggingface_hub import snapshot_download; snapshot_download('Tack-Tau/mattergen-csp-electride', local_dir='${CSP_MODEL_DIR}')\""
+        exit 1
+    fi
+    echo "Model downloaded to: $CSP_MODEL_DIR"
+fi
+CSP_MODEL="$CSP_MODEL_DIR"
 COMPOSITIONS_FILE="binary_electride_compositions.json"
 OUTPUT_DIR="../results/binary_csp_electrides"
 STRUCTURES_PER_ATOM=2.0
@@ -54,7 +77,7 @@ echo "=========================================="
 if [ ! -d "$CSP_MODEL" ]; then
     echo "ERROR: CSP model directory not found: $CSP_MODEL"
     echo ""
-    echo "Please update CSP_MODEL path in this script with your fine-tuned CSP checkpoint"
+    echo "Please update CSP_MODEL path in this script with your trained CSP checkpoint"
     echo "Example: outputs/singlerun/2025-10-16/18-55-08"
     exit 1
 fi

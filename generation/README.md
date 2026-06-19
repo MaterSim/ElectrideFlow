@@ -75,6 +75,27 @@ CSP_MODEL="$HOME/SOFT/mattergen_test/outputs/singlerun/2025-10-16/18-55-08"
 CSP_MODEL="$HOME/SOFT/mattergen_test/outputs/singlerun/2025-10-16/18-55-08"
 ```
 
+### Model Checkpoint
+
+The fine-tuned CSP model checkpoint (~1.4 GB) is hosted on Hugging Face:
+
+**https://huggingface.co/Tack-Tau/mattergen-csp-electride**
+
+Download the checkpoint before running generation scripts:
+
+```bash
+pip install huggingface_hub
+
+python -c "
+from huggingface_hub import snapshot_download
+snapshot_download('Tack-Tau/mattergen-csp-electride', local_dir='./csp_model')
+"
+```
+
+Then set the `CSP_MODEL` path in generation scripts to point to your downloaded directory (e.g., `./csp_model`).
+
+The generation scripts also support automatic downloading from Hugging Face if the model is not found locally (see `generate_binary_csp.sh` and `generate_ternary_csp.sh`).
+
 ### When to Use Fine-Tuned vs Base Model
 
 - **Fine-tuned model**: Better for binary electrides and specific composition families
